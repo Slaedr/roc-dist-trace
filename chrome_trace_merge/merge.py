@@ -15,8 +15,9 @@ def adjust_pids(all_df_lists, pid_rank_mult):
 
 def process_sections(rank_sections_list, ranks):
     """ Get the global list of section dicts.
-
+    
     We assume that the rank pids are already ints, not strings.
+    The output sections are sorted to have lower ranks first.
 
     @param rank_sections_list  List of dicts mapping section names to pids for all ranks.
     @param ranks  List of rank IDs for the different processes.
@@ -30,6 +31,8 @@ def process_sections(rank_sections_list, ranks):
 
     max_pid += 1
     gl_sections = []
+    rank_ids = []
+    max_sort_index = 0
     for irank, rank_sections_pids in enumerate(rank_sections_list):
         for orig_name, orig_pid in rank_sections_pids.items():
             gl_sec = {"args":{}, "ph":"M", "name":"process_name", "sort_index":10}
@@ -44,7 +47,13 @@ def process_sections(rank_sections_list, ranks):
             elif "GPU" in orig_name:
                 gpu_id = int(orig_name[-1])
                 gl_sec["sort_index"] = gpu_id + 3
+            max_sort_index = max(gl_sec["sort_index"], max_sort_index)
             gl_sections.append(gl_sec)
+            rank_ids.append(irank)
+    
+    max_sort_index += 1
+    for irank, section in zip(rank_ids, gl_sections):
+    	section["sort_index"] = section["sort_index"] + irank * max_sort_index
 
     return gl_sections, max_pid
 
@@ -130,7 +139,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-o", "--output_file", required=True,
                         help="JSON file for merged output")
-    parser.add_arguments("files", nargs='+', help="Input JSON files")
+    parser.add_argument("files", nargs='+', help="Input JSON files")
     #args, unknown = parser.parse_known_args()
     args = parser.parse_args()
 
