@@ -1,7 +1,7 @@
 import argparse
 import json
 
-def adjust_pids(all_df_lists, pid_rank_mult):
+def adjust_pids(all_df_lists, pid_rank_mult, ranks):
     """ Makes the section pids unique to each rank.
     """
     for df_list in all_df_lists:
@@ -10,6 +10,7 @@ def adjust_pids(all_df_lists, pid_rank_mult):
                 newpid = int(event["pid"]) + irank * pid_rank_mult
                 if event["ph"] in "stf":
                     event["pid"] = newpid
+                    event["name"] = event["name"] + " r" + str(ranks[irank])
                 else:
                     event["pid"] = str(newpid)
 
@@ -123,7 +124,7 @@ def merge_traces(input_files):
     # Process names and PIDs
     gl_sections, pid_rank_multiplier = process_sections(ranks_sections, ranks)
 
-    adjust_pids((dur_events, marker_events, flow_events), pid_rank_multiplier)
+    adjust_pids((dur_events, marker_events, flow_events), pid_rank_multiplier, ranks)
 
     outdict["traceEvents"] = outdict["traceEvents"] + gl_sections
     for irank, rank in enumerate(ranks):
