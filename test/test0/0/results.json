@@ -38,7 +38,7 @@
     "DurationNs":"1056"                                                                            
   }                                                                                                
 }
-,{"ph":"X","name":"Cijk_Ailk_Bjlk_DB_MT128x128x16","pid":"6","tid":"0","ts":"101","dur":"4",
+,{"ph":"X","name":"Cijk_Ailk_Bjlk_DB_MT128x128x16","pid":"6","tid":"234","ts":"101","dur":"4",
   "args":{
     "BeginNs":"101300",
     "EndNs":"105300",
@@ -53,7 +53,7 @@
   }
 }
 ,{"ts":101,"ph":"s","cat":"DataFlow","id":5834,"pid":0,"tid":5451,"name":"dep"}
-,{"ts":101,"ph":"t","cat":"DataFlow","id":5834,"pid":6,"tid":0,"name":"dep"}
+,{"ts":101,"ph":"t","cat":"DataFlow","id":5834,"pid":6,"tid":234,"name":"dep"}
 ],
 "otherData": {
     "CMD": "rocminfo",

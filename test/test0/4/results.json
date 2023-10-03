@@ -27,7 +27,7 @@
     "DurationNs":"3150"
   }
 }
-,{"ph":"X","name":"<barrier packet>","pid":"6","tid":"0","ts":"103","dur":"5",
+,{"ph":"X","name":"<barrier packet>","pid":"6","tid":"114","ts":"103","dur":"5",
   "args":{
     "BeginNs":"103200",
     "EndNs":"108200",
@@ -36,13 +36,13 @@
     "Name":"<barrier packet>",
     "pid":"5451",
     "tid":"5451",
-    "stream-id":"0",
+    "stream-id":"2",
     "Data":"",
     "DurationNs":"5000"
   }
 }
 ,{"ts":102,"ph":"s","cat":"DataFlow","id":5835,"pid":0,"tid":5451,"name":"dep"}
-,{"ts":103,"ph":"t","cat":"DataFlow","id":5835,"pid":6,"tid":0,"name":"dep"}
+,{"ts":103,"ph":"t","cat":"DataFlow","id":5835,"pid":6,"tid":114,"name":"dep"}
 ],
 "otherData": {
     "CMD": "rocminfo",

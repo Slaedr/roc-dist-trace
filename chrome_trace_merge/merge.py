@@ -1,18 +1,38 @@
 import argparse
 import json
 
-def adjust_pids(all_df_lists, pid_rank_mult, ranks):
+def adjust_pids_tids(all_df_lists, pid_rank_mult, ranks):
     """ Makes the section pids unique to each rank.
     """
+    tid_maps = [{} for rank in ranks]
+
     for df_list in all_df_lists:
         for irank, df in enumerate(df_list):
+
             for event in df:
+
+                # Check stream IDs and tids
+                if "args" in event:
+                    if "stream-id" in event["args"]:
+                        newtid = int(event["args"]["queue-id"]) * 10 + int(event["args"]["stream-id"])
+                        # push (pid,tid)->new_tid map to this rank's list
+                        tid_maps[irank][(event["pid"], event["tid"])] = newtid
+                        # update this event's tid
+                        event["tid"] = str(newtid)
+                if event["ph"] in "stf":
+                    pids = str(event["pid"])
+                    tids = str(event["tid"])
+                    if (pids,tids) in tid_maps[irank]:
+                        event["tid"] = int(tid_maps[irank][(pids,tids)])
+
+                # Process pids
                 newpid = int(event["pid"]) + irank * pid_rank_mult
                 if event["ph"] in "stf":
                     event["pid"] = newpid
                     event["name"] = event["name"] + " r" + str(ranks[irank])
                 else:
                     event["pid"] = str(newpid)
+
 
 def process_sections(rank_sections_list, ranks):
     """ Get the global list of section dicts.
@@ -54,7 +74,7 @@ def process_sections(rank_sections_list, ranks):
     
     max_sort_index += 1
     for irank, section in zip(rank_ids, gl_sections):
-    	section["sort_index"] = section["sort_index"] + irank * max_sort_index
+        section["sort_index"] = section["sort_index"] + irank * max_sort_index
 
     return gl_sections, max_pid
 
@@ -104,10 +124,6 @@ def merge_traces(input_files):
 
         rank_events = None
         rank_data = None
-        # Convert
-        #df_durs = pd.DataFrame(rank_durs_dictarr)
-        #df_markers = pd.DataFrame(rank_markers_dictarr)
-        #df_flow = pd.DataFrame(rank_flow_dictarr)
 
         dur_events.append(rank_durs_dictarr)
         marker_events.append(rank_markers_dictarr)
@@ -124,7 +140,7 @@ def merge_traces(input_files):
     # Process names and PIDs
     gl_sections, pid_rank_multiplier = process_sections(ranks_sections, ranks)
 
-    adjust_pids((dur_events, marker_events, flow_events), pid_rank_multiplier, ranks)
+    adjust_pids_tids((dur_events, marker_events, flow_events), pid_rank_multiplier, ranks)
 
     outdict["traceEvents"] = outdict["traceEvents"] + gl_sections
     for irank, rank in enumerate(ranks):
