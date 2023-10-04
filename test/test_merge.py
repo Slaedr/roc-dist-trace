@@ -12,10 +12,7 @@ class MergeTest(unittest.TestCase):
     def setUp(self):
         pass
 
-    def test_1(self):
-        testdir = "./test0"
-        if not os.path.isdir(testdir):
-            testdir = "./test/test0"
+    def compare_traces(self, testdir):
         inputfiles = [testdir + "/0/results.json", testdir + "/4/results.json", testdir + "/8/results.json"]
         ref_outputfile = testdir + "/merged.json"
         ref_outdict = {}
@@ -33,6 +30,12 @@ class MergeTest(unittest.TestCase):
                 print("Event {} with name {} has mismatch!".format(i, outdict["traceEvents"][i]["name"]))
             self.assertTrue(outdict['traceEvents'][i] == ref_outdict["traceEvents"][i])
         self.assertTrue(outdict["otherData"] == ref_outdict["otherData"])
+
+    def test_0(self):
+        testdir = "./test0"
+        if not os.path.isdir(testdir):
+            testdir = "./test/test0"
+        self.compare_traces(testdir)
 
 
 if __name__ == "__main__":

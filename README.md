@@ -9,3 +9,6 @@ The script primarily accomplishes:
 - Modifies TIDs of the timelines to separate events on different GPU streams and queues
 
 Currently tested with trace outputs from rocprof 5.4.3.
+
+Notes on chrome tracing:
+- It normalizes the time stamps in the JSON file being visualized by subtracting the minimum time stamp from all entries.

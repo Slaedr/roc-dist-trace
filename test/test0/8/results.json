@@ -51,7 +51,7 @@
     "tid":"5451",
     "stream-id":"0",
     "Data":"",
-    "DurationNs":"164251872"
+    "DurationNs":"6000"
   }
 }
 ,{"ts":101,"ph":"s","cat":"DataFlow","id":5834,"pid":0,"tid":5451,"name":"dep"}

@@ -1,8 +1,10 @@
 import argparse
 import json
 
-def adjust_pids_tids(all_df_lists, pid_rank_mult, ranks):
-    """ Makes the section pids unique to each rank.
+def adjust_pids_tids(all_df_lists, pid_rank_mult, ranks, min_tss):
+    """ Adjusts data according to global PID multiplier and rank-wise min time stamps.
+
+    Also adjusts TIDs to reflect separate GPU queues/streams.
     """
     tid_maps = [{} for rank in ranks]
 
@@ -10,16 +12,24 @@ def adjust_pids_tids(all_df_lists, pid_rank_mult, ranks):
         for irank, df in enumerate(df_list):
 
             for event in df:
+                # Adjust timstamp
+                if "ts" in event:
+                    event["ts"] = int(event["ts"]) - min_tss[irank]
 
-                # Check stream IDs and tids
                 if "args" in event:
+                    # Check stream IDs and tids
                     if "stream-id" in event["args"]:
                         newtid = int(event["args"]["queue-id"]) * 10 + int(event["args"]["stream-id"])
                         # push (pid,tid)->new_tid map to this rank's list
                         tid_maps[irank][(event["pid"], event["tid"])] = newtid
                         # update this event's tid
                         event["tid"] = str(newtid)
+                    # Adjust ns times
+                    if "BeginNs" in event["args"]:
+                        event["args"]["BeginNs"] = int(event["args"]["BeginNs"]) - min_tss[irank]*1000
+                        event["args"]["EndNs"] = int(event["args"]["EndNs"]) - min_tss[irank]*1000
                 if event["ph"] in "stf":
+                    # correct TIDs of flow events
                     pids = str(event["pid"])
                     tids = str(event["tid"])
                     if (pids,tids) in tid_maps[irank]:
@@ -31,7 +41,7 @@ def adjust_pids_tids(all_df_lists, pid_rank_mult, ranks):
                     event["pid"] = newpid
                     event["name"] = event["name"] + " r" + str(ranks[irank])
                 else:
-                    event["pid"] = str(newpid)
+                    event["pid"] = newpid # str
 
 
 def process_sections(rank_sections_list, ranks):
@@ -87,6 +97,7 @@ def merge_traces(input_files):
     marker_events = []
     flow_events = []
     ranks_sections = []
+    min_tss = []
 
     for irank, rankfile in enumerate(input_files):
         rank = int(rankfile.split("/")[-2])
@@ -103,12 +114,18 @@ def merge_traces(input_files):
         rank_durs_dictarr = []
         rank_markers_dictarr = []
         rank_flow_dictarr = []
+        rank_min_ts = -1
 
         for event in rank_events:
             if len(event) == 0:
                 continue
             # First few should be names of types
             pid = int(event["pid"])
+            if "ts" in event:
+                if rank_min_ts == -1:
+                    rank_min_ts = int(event["ts"])
+                else:
+                    rank_min_ts = min(rank_min_ts, int(event["ts"]))
             if event["ph"] == "M":
                 rank_section_pids[event["args"]["name"]] = pid
                 rank_pid_section_names[pid] = event["args"]["name"]
@@ -129,6 +146,7 @@ def merge_traces(input_files):
         marker_events.append(rank_markers_dictarr)
         flow_events.append(rank_flow_dictarr)
         ranks_sections.append(rank_section_pids)
+        min_tss.append(rank_min_ts)
 
     print("Found ranks " + str(ranks))
     assert(len(ranks) == len(ranks_sections))
@@ -140,7 +158,7 @@ def merge_traces(input_files):
     # Process names and PIDs
     gl_sections, pid_rank_multiplier = process_sections(ranks_sections, ranks)
 
-    adjust_pids_tids((dur_events, marker_events, flow_events), pid_rank_multiplier, ranks)
+    adjust_pids_tids((dur_events, marker_events, flow_events), pid_rank_multiplier, ranks, min_tss)
 
     outdict["traceEvents"] = outdict["traceEvents"] + gl_sections
     for irank, rank in enumerate(ranks):
