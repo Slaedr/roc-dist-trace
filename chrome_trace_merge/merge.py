@@ -1,10 +1,10 @@
 import argparse
 import json
 
-def adjust_pids_tids(all_df_lists, pid_rank_mult, ranks, min_tss):
-    """ Adjusts data according to global PID multiplier and rank-wise min time stamps.
+def adjust_events(all_df_lists, pid_rank_mult, ranks, sync_tss):
+    """ Adjusts data according to global PID multiplier, GPU queues/streams and sync time stamps.
 
-    Also adjusts TIDs to reflect separate GPU queues/streams.
+    Adjusts TIDs to reflect separate GPU queues/streams.
     """
     tid_maps = [{} for rank in ranks]
 
@@ -14,7 +14,7 @@ def adjust_pids_tids(all_df_lists, pid_rank_mult, ranks, min_tss):
             for event in df:
                 # Adjust timstamp
                 if "ts" in event:
-                    event["ts"] = int(event["ts"]) - min_tss[irank]
+                    event["ts"] = int(event["ts"]) - sync_tss[irank] + sync_tss[0]
 
                 if "args" in event:
                     # Check stream IDs and tids
@@ -26,8 +26,8 @@ def adjust_pids_tids(all_df_lists, pid_rank_mult, ranks, min_tss):
                         event["tid"] = str(newtid)
                     # Adjust ns times
                     if "BeginNs" in event["args"]:
-                        event["args"]["BeginNs"] = int(event["args"]["BeginNs"]) - min_tss[irank]*1000
-                        event["args"]["EndNs"] = int(event["args"]["EndNs"]) - min_tss[irank]*1000
+                        event["args"]["BeginNs"] = int(event["args"]["BeginNs"]) - (sync_tss[irank] - sync_tss[0])*1000
+                        event["args"]["EndNs"] = int(event["args"]["EndNs"]) - (sync_tss[irank] - sync_tss[0])*1000
                 if event["ph"] in "stf":
                     # correct TIDs of flow events
                     pids = str(event["pid"])
@@ -89,6 +89,11 @@ def process_sections(rank_sections_list, ranks):
     return gl_sections, max_pid
 
 
+class ClockSyncMissing(Exception):
+    def __init__(self, rank):
+        super().__init__("Could not found clock sync event in rank {}!".format(rank))
+
+
 def merge_traces(input_files):
     outdict = {"traceEvents": []}
 
@@ -97,7 +102,7 @@ def merge_traces(input_files):
     marker_events = []
     flow_events = []
     ranks_sections = []
-    min_tss = []
+    sync_tss = []
 
     for irank, rankfile in enumerate(input_files):
         rank = int(rankfile.split("/")[-2])
@@ -116,24 +121,32 @@ def merge_traces(input_files):
         rank_flow_dictarr = []
         rank_min_ts = -1
 
+        found_clock_sync = False
+
         for event in rank_events:
             if len(event) == 0:
                 continue
-            # First few should be names of types
+            print("Rank {}: event {}.".format(rank, event["name"]))
             pid = int(event["pid"])
-            if "ts" in event:
-                if rank_min_ts == -1:
-                    rank_min_ts = int(event["ts"])
-                else:
-                    rank_min_ts = min(rank_min_ts, int(event["ts"]))
+            #if "ts" in event:
+            #    if rank_min_ts == -1:
+            #        rank_min_ts = int(event["ts"])
+            #    else:
+            #        rank_min_ts = min(rank_min_ts, int(event["ts"]))
             if event["ph"] == "M":
+                # First few should be names of types
                 rank_section_pids[event["args"]["name"]] = pid
                 rank_pid_section_names[pid] = event["args"]["name"]
             elif event["ph"] == "X":
                 # This is a complete duration event. Add to resp. duration dict
                 if rank_pid_section_names[pid] != "Makers and Ranges":
                     rank_durs_dictarr.append(event)
+                    print("   Not a Markers and Ranges event..")
                 else:
+                    if event["name"] == "App_clock_sync":
+                        sync_tss.append(int(event["ts"]) + int(event["dur"]))
+                        print("Found clock sync on rank {}".format(rank))
+                        found_clock_sync = True
                     rank_markers_dictarr.append(event)
             elif event["ph"] == "s" or event["ph"] == "t":
                 # Flow event
@@ -142,23 +155,26 @@ def merge_traces(input_files):
         rank_events = None
         rank_data = None
 
+        if not found_clock_sync:
+            raise ClockSyncMissing(rank)
+
         dur_events.append(rank_durs_dictarr)
         marker_events.append(rank_markers_dictarr)
         flow_events.append(rank_flow_dictarr)
         ranks_sections.append(rank_section_pids)
-        min_tss.append(rank_min_ts)
 
     print("Found ranks " + str(ranks))
     assert(len(ranks) == len(ranks_sections))
     assert(len(ranks) == len(dur_events))
     assert(len(ranks) == len(marker_events))
     assert(len(ranks) == len(flow_events))
+    assert(len(ranks) == len(sync_tss))
 
     # Add this rank's section names to global names
     # Process names and PIDs
     gl_sections, pid_rank_multiplier = process_sections(ranks_sections, ranks)
 
-    adjust_pids_tids((dur_events, marker_events, flow_events), pid_rank_multiplier, ranks, min_tss)
+    adjust_events((dur_events, marker_events, flow_events), pid_rank_multiplier, ranks, sync_tss)
 
     outdict["traceEvents"] = outdict["traceEvents"] + gl_sections
     for irank, rank in enumerate(ranks):

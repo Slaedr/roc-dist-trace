@@ -3,6 +3,15 @@
 ,{"args":{"name":"CPU HIP API"},"ph":"M","pid":2,"name":"process_name","sort_index":1}
 ,{"args":{"name":"COPY"},"ph":"M","pid":1,"name":"process_name","sort_index":2}
 ,{"args":{"name":"GPU0"},"ph":"M","pid":6,"name":"process_name","sort_index":3}
+,{"ph":"X","name":"App_clock_sync","pid":"0","tid":"5451","ts":"990","dur":"5",
+  "args":{
+    "BeginNs":"990000",
+    "EndNs":"995000",
+    "pid":"5451",
+    "tid":"5451",
+    "Name":"App_clock_sync"
+  }
+}
 ,{"ph":"X","name":"HPL_all_reduce_dmxswp","pid":"0","tid":"5451","ts":"1000","dur":"4",
   "args":{
     "BeginNs":"1000000",

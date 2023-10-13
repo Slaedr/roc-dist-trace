@@ -12,19 +12,28 @@
 ,{"args":{"name":"CPU HIP API r8"},"ph":"M","pid":44,"name":"process_name","sort_index":17}
 ,{"args":{"name":"COPY r8"},"ph":"M","pid":43,"name":"process_name","sort_index":18}
 ,{"args":{"name":"GPU4 r8"},"ph":"M","pid":62,"name":"process_name","sort_index":23}
-,{"ph":"X","name":"HPL_all_reduce_dmxswp","pid":0,"tid":"5451","ts":1,"dur":"4",
+,{"ph":"X","name":"App_clock_sync","pid":"0","tid":"5451","ts":"990","dur":"5",
   "args":{
-    "BeginNs":1000,
-    "EndNs":5000,
+    "BeginNs":"990000",
+    "EndNs":"995000",
+    "pid":"5451",
+    "tid":"5451",
+    "Name":"App_clock_sync"
+  }
+}
+,{"ph":"X","name":"HPL_all_reduce_dmxswp","pid":0,"tid":"5451","ts":1000,"dur":"4",
+  "args":{
+    "BeginNs":1000000,
+    "EndNs":1004000,
     "pid":"5451",
     "tid":"5451",
     "Name":"HPL_all_reduce_dmxswp"
   }
 }
-,{"ph":"X","name":"dlatcpy_gpu(int, int, double const*, int, double*, int)","pid":6,"tid":"1","ts":0,"dur":"2",
+,{"ph":"X","name":"dlatcpy_gpu(int, int, double const*, int, double*, int)","pid":6,"tid":"1","ts":999,"dur":"2",
   "args":{
-    "BeginNs":0,
-    "EndNs": 2000,
+    "BeginNs":999000,
+    "EndNs": 1001000,
     "dev-id":"4",
     "queue-id":"0",
     "Name":"dlatcpy_gpu(int, int, double const*, int, double*, int)",
@@ -35,10 +44,10 @@
     "DurationNs":"2000"
   }
 }
-,{"ph":"X","name":"hipExtModuleLaunchKernel","pid":2,"tid":"5451","ts":0,"dur":"1",
+,{"ph":"X","name":"hipExtModuleLaunchKernel","pid":2,"tid":"5451","ts":999,"dur":"1",
   "args":{
-    "BeginNs":0,
-    "EndNs":800,
+    "BeginNs":999000,
+    "EndNs":1000000,
     "pid":"5451",
     "tid":"5451",
     "Name":"hipExtModuleLaunchKernel",
@@ -47,10 +56,10 @@
     "DurationNs":"1056"
   }                                                                                                
 }
-,{"ph":"X","name":"Cijk_Ailk_Bjlk_DB_MT128x128x16","pid":6,"tid":"0","ts":11,"dur":"4",
+,{"ph":"X","name":"Cijk_Ailk_Bjlk_DB_MT128x128x16","pid":6,"tid":"0","ts":1010,"dur":"4",
   "args":{
-    "BeginNs":11300,
-    "EndNs":15300,
+    "BeginNs":1010300,
+    "EndNs":1014300,
     "dev-id":"4",
     "queue-id":"0",
     "Name":"Cijk_Ailk_Bjlk_DB_MT128x128x16",
@@ -61,21 +70,30 @@
     "DurationNs":"161272355"
   }
 }
-,{"ts":3,"ph":"s","cat":"DataFlow","id":5834,"pid":0,"tid":5451,"name":"dep r0"}
-,{"ts":11,"ph":"t","cat":"DataFlow","id":5834,"pid":6,"tid":0,"name":"dep r0"}
-,{"ph":"X","name":"HPL_all_reduce_dmxswp","pid":21,"tid":"5451","ts":0,"dur":"2",
+,{"ts":1002,"ph":"s","cat":"DataFlow","id":5834,"pid":0,"tid":5451,"name":"dep r0"}
+,{"ts":1010,"ph":"t","cat":"DataFlow","id":5834,"pid":6,"tid":0,"name":"dep r0"}
+,{"ph":"X","name":"App_clock_sync","pid":"0","tid":"5451","ts":"991","dur":"4",
   "args":{
-    "BeginNs":100,
-    "EndNs":2200,
+    "BeginNs":"991000",
+    "EndNs":"995000",
+    "pid":"5451",
+    "tid":"5451",
+    "Name":"App_clock_sync"
+  }
+}
+,{"ph":"X","name":"HPL_all_reduce_dmxswp","pid":21,"tid":"5451","ts":999,"dur":"2",
+  "args":{
+    "BeginNs":999000,
+    "EndNs":1001200,
     "pid":"5451",
     "tid":"5451",
     "Name":"HPL_all_reduce_dmxswp"
   }
 }
-,{"ph":"X","name":"dmxswp()","pid":28,"tid":"1","ts":1,"dur":"3",
+,{"ph":"X","name":"dmxswp()","pid":28,"tid":"1","ts":1000,"dur":"3",
   "args":{
-    "BeginNs":1000,
-    "EndNs":4150,
+    "BeginNs":1000000,
+    "EndNs":1003150,
     "dev-id":"4",
     "queue-id":"0",
     "Name":"dmxswp()",
@@ -86,10 +104,10 @@
     "DurationNs":"3150"
   }
 }
-,{"ph":"X","name":"<barrier packet>","pid":27,"tid":"22","ts":3,"dur":"5",
+,{"ph":"X","name":"<barrier packet>","pid":27,"tid":"22","ts":1002,"dur":"5",
   "args":{
-    "BeginNs":3200,
-    "EndNs":8200,
+    "BeginNs":1002200,
+    "EndNs":1007200,
     "dev-id":"4",
     "queue-id":"2",
     "Name":"<barrier packet>",
@@ -100,21 +118,30 @@
     "DurationNs":"5000"
   }
 }
-,{"ts":2,"ph":"s","cat":"DataFlow","id":5835,"pid":21,"tid":5451,"name":"dep r4"}
-,{"ts":3,"ph":"t","cat":"DataFlow","id":5835,"pid":27,"tid":22,"name":"dep r4"}
-,{"ph":"X","name":"HPL_all_reduce_dmxswp","pid":42,"tid":"5451","ts":0,"dur":"2",
+,{"ts":1001,"ph":"s","cat":"DataFlow","id":5835,"pid":21,"tid":5451,"name":"dep r4"}
+,{"ts":1002,"ph":"t","cat":"DataFlow","id":5835,"pid":27,"tid":22,"name":"dep r4"}
+,{"ph":"X","name":"App_clock_sync","pid":"0","tid":"5451","ts":"991","dur":"4",
   "args":{
-    "BeginNs":100,
-    "EndNs":2100,
+    "BeginNs":"991000",
+    "EndNs":"994000",
+    "pid":"5451",
+    "tid":"5451",
+    "Name":"App_clock_sync"
+  }
+}
+,{"ph":"X","name":"HPL_all_reduce_dmxswp","pid":42,"tid":"5451","ts":1000,"dur":"2",
+  "args":{
+    "BeginNs":1000000,
+    "EndNs":1002100,
     "pid":"5451",
     "tid":"5451",
     "Name":"HPL_all_reduce_dmxswp"
   }
 }
-,{"ph":"X","name":"dlatcpy_gpu(int, int, double const*, int, double*, int)","pid":62,"tid":"1","ts":2,"dur":"25",
+,{"ph":"X","name":"dlatcpy_gpu(int, int, double const*, int, double*, int)","pid":62,"tid":"1","ts":1002,"dur":"25",
   "args":{
-    "BeginNs":2000,
-    "EndNs":27100,
+    "BeginNs":1002000,
+    "EndNs":1027100,
     "dev-id":"4",
     "queue-id":"0",
     "Name":"dlatcpy_gpu(int, int, double const*, int, double*, int)",
@@ -125,10 +152,10 @@
     "DurationNs":"25100"
   }
 }
-,{"ph":"X","name":"Cijk_Ailk_Bjlk_DB_MT128x128x16_MI16x16x4x1","pid":62,"tid":"0","ts":0,"dur":"20",
+,{"ph":"X","name":"Cijk_Ailk_Bjlk_DB_MT128x128x16_MI16x16x4x1","pid":62,"tid":"0","ts":1000,"dur":"20",
   "args":{
-    "BeginNs":0,
-    "EndNs":20050,
+    "BeginNs":1000000,
+    "EndNs":1020050,
     "dev-id":"4",
     "queue-id":"0",
     "Name":"Cijk_Ailk_Bjlk_DB_MT128x128x16_MI16x16x4x1",
@@ -139,10 +166,10 @@
     "DurationNs":"20050"
   }
 }
-,{"ph":"X","name":"<barrier packet>","pid":62,"tid":"20","ts":3,"dur":"6",
+,{"ph":"X","name":"<barrier packet>","pid":62,"tid":"20","ts":1003,"dur":"6",
   "args":{
-    "BeginNs":3000,
-    "EndNs":9000,
+    "BeginNs":1003000,
+    "EndNs":1009000,
     "dev-id":"4",
     "queue-id":"2",
     "Name":"<barrier packet>",
@@ -153,8 +180,8 @@
     "DurationNs":"6000"
   }
 }
-,{"ts":2,"ph":"s","cat":"DataFlow","id":5834,"pid":42,"tid":5451,"name":"dep r8"}
-,{"ts":3,"ph":"t","cat":"DataFlow","id":5834,"pid":62,"tid":20,"name":"dep r8"}
+,{"ts":1002,"ph":"s","cat":"DataFlow","id":5834,"pid":42,"tid":5451,"name":"dep r8"}
+,{"ts":1003,"ph":"t","cat":"DataFlow","id":5834,"pid":62,"tid":20,"name":"dep r8"}
 ],
 "otherData": {
     "CMD": "rocminfo",
