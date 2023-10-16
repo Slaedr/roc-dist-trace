@@ -116,7 +116,9 @@ def merge_traces(input_files):
         rank_events = rank_data["traceEvents"]
         rank_section_pids = {}
         rank_pid_section_names = {}
+        # Array of HIP, COPY and GPU duration events
         rank_durs_dictarr = []
+        # Array of roctx marker events
         rank_markers_dictarr = []
         rank_flow_dictarr = []
         rank_min_ts = -1
@@ -126,7 +128,6 @@ def merge_traces(input_files):
         for event in rank_events:
             if len(event) == 0:
                 continue
-            print("Rank {}: event {}.".format(rank, event["name"]))
             pid = int(event["pid"])
             #if "ts" in event:
             #    if rank_min_ts == -1:
@@ -139,9 +140,8 @@ def merge_traces(input_files):
                 rank_pid_section_names[pid] = event["args"]["name"]
             elif event["ph"] == "X":
                 # This is a complete duration event. Add to resp. duration dict
-                if rank_pid_section_names[pid] != "Makers and Ranges":
+                if rank_pid_section_names[pid] != "Markers and Ranges":
                     rank_durs_dictarr.append(event)
-                    print("   Not a Markers and Ranges event..")
                 else:
                     if event["name"] == "App_clock_sync":
                         sync_tss.append(int(event["ts"]) + int(event["dur"]))

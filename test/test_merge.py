@@ -28,6 +28,8 @@ class MergeTest(unittest.TestCase):
         for i in range(nevents):
             if outdict['traceEvents'][i] != ref_outdict["traceEvents"][i]:
                 print("Event {} with name {} has mismatch!".format(i, outdict["traceEvents"][i]["name"]))
+                print(outdict['traceEvents'][i])
+                print(ref_outdict['traceEvents'][i])
             self.assertTrue(outdict['traceEvents'][i] == ref_outdict["traceEvents"][i])
         self.assertTrue(outdict["otherData"] == ref_outdict["otherData"])
 
