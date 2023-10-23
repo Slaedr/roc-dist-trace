@@ -1,0 +1,67 @@
+{ "traceEvents":[{}
+,{"args":{"name":"Markers and Ranges"},"ph":"M","pid":0,"name":"process_name","sort_index":0}
+,{"args":{"name":"CPU HIP API"},"ph":"M","pid":2,"name":"process_name","sort_index":1}
+,{"args":{"name":"COPY"},"ph":"M","pid":1,"name":"process_name","sort_index":2}
+,{"args":{"name":"GPU0"},"ph":"M","pid":6,"name":"process_name","sort_index":3}
+,{"args":{"name":"GPU1"},"ph":"M","pid":7,"name":"process_name","sort_index":4}
+,{"ph":"X","name":"App_clock_sync","pid":"0","tid":"5451","ts":"192","dur":"4",
+  "args":{
+    "BeginNs":"192000",
+    "EndNs":"196000",
+    "pid":"5451",
+    "tid":"5451",
+    "Name":"App_clock_sync"
+  }
+}
+,{"ph":"X","name":"HPL_all_reduce_dmxswp","pid":"0","tid":"5451","ts":"200","dur":"2",
+  "args":{
+    "BeginNs":"200100",
+    "EndNs":"202200",
+    "pid":"5451",
+    "tid":"5451",
+    "Name":"HPL_all_reduce_dmxswp"
+  }
+}
+,{"ph":"X","name":"dmxswp()","pid":"7","tid":"1","ts":"201","dur":"3",
+  "args":{
+    "BeginNs":"201000",
+    "EndNs":"204150",
+    "dev-id":"4",
+    "queue-id":"0",
+    "Name":"dmxswp()",
+    "pid":"5451",
+    "tid":"5451",
+    "stream-id":"1",
+    "Data":"",
+    "DurationNs":"3150"
+  }
+}
+,{"ph":"X","name":"<barrier packet>","pid":"6","tid":"114","ts":"203","dur":"5",
+  "args":{
+    "BeginNs":"203200",
+    "EndNs":"208200",
+    "dev-id":"4",
+    "queue-id":"2",
+    "Name":"<barrier packet>",
+    "pid":"5451",
+    "tid":"5451",
+    "stream-id":"2",
+    "Data":"",
+    "DurationNs":"5000"
+  }
+}
+,{"ts":202,"ph":"s","cat":"DataFlow","id":5835,"pid":0,"tid":5451,"name":"dep"}
+,{"ts":203,"ph":"t","cat":"DataFlow","id":5835,"pid":6,"tid":114,"name":"dep"}
+],
+"otherData": {
+    "CMD": "rocminfo",
+    "HSASystemAttributes.RuntimeVersion": "1.1",
+    "HSASystemAttributes.SystemTimestampFreq.": "1000.000000MHz",
+    "HSASystemAttributes.Sig.MaxWaitDuration": "18446744073709551615(0xFFFFFFFFFFFFFFFF)(timestampcount)",
+    "HSASystemAttributes.MachineModel": "LARGE",
+    "HSASystemAttributes.SystemEndianness": "LITTLE",
+    "Agent1.Name": "AMDEPYC7A5364-CoreProcessor",
+    "Agent1.Uuid": "CPU-XX",
+    "Agent1.MarketingName": "AMDEPYC7A5364-CoreProcessor"
+}
+}

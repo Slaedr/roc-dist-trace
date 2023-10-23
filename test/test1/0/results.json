@@ -1,0 +1,78 @@
+{ "traceEvents":[{}
+,{"args":{"name":"Markers and Ranges"},"ph":"M","pid":0,"name":"process_name","sort_index":0}
+,{"args":{"name":"CPU HIP API"},"ph":"M","pid":2,"name":"process_name","sort_index":1}
+,{"args":{"name":"COPY"},"ph":"M","pid":1,"name":"process_name","sort_index":2}
+,{"args":{"name":"GPU0"},"ph":"M","pid":6,"name":"process_name","sort_index":3}
+,{"ph":"X","name":"App_clock_sync","pid":"0","tid":"5451","ts":"990","dur":"5",
+  "args":{
+    "BeginNs":"990000",
+    "EndNs":"995000",
+    "pid":"5451",
+    "tid":"5451",
+    "Name":"App_clock_sync"
+  }
+}
+,{"ph":"X","name":"HPL_all_reduce_dmxswp","pid":"0","tid":"5451","ts":"1000","dur":"4",
+  "args":{
+    "BeginNs":"1000000",
+    "EndNs":"1004000",
+    "pid":"5451",
+    "tid":"5451",
+    "Name":"HPL_all_reduce_dmxswp"
+  }
+}
+,{"ph":"X","name":"dlatcpy_gpu(int, int, double const*, int, double*, int)","pid":"6","tid":"1","ts":"999","dur":"2",
+  "args":{
+    "BeginNs":"999000",
+    "EndNs":  "1001000",
+    "dev-id":"4",
+    "queue-id":"0",
+    "Name":"dlatcpy_gpu(int, int, double const*, int, double*, int)",
+    "pid":"5451",
+    "tid":"5451",
+    "stream-id":"1",
+    "Data":"",
+    "DurationNs":"2000"
+  }
+}
+,{"ph":"X","name":"hipExtModuleLaunchKernel","pid":"2","tid":"5451","ts":"999","dur":"1", 
+  "args":{                                                                                         
+    "BeginNs":"999000",
+    "EndNs":"999800",
+    "pid":"5451",
+    "tid":"5451",
+    "Name":"hipExtModuleLaunchKernel",
+    "args":"( kernel(Cijk_Ailk_Bljk_DB_MT128x128x16) f(0x4b5fc8a0) globalWorkSizeX(128) globalWorkSizeY(2) globalWorkSizeZ(4) localWorkSizeX(128) localWorkSizeY(1) localWorkSizeZ(1) sharedMemBytes(0) hStream(0x7691f0) kernelParams(NULL) extra(0x1) startEvent(0) stopEvent(0) flags(0))",
+    "Data":"",
+    "DurationNs":"1056"
+  }                                                                                                
+}
+,{"ph":"X","name":"Cijk_Ailk_Bjlk_DB_MT128x128x16","pid":"6","tid":"234","ts":"1010","dur":"4",
+  "args":{
+    "BeginNs":"1010300",
+    "EndNs":"1014300",
+    "dev-id":"4",
+    "queue-id":"0",
+    "Name":"Cijk_Ailk_Bjlk_DB_MT128x128x16",
+    "pid":"5451",
+    "tid":"5451",
+    "stream-id":"0",
+    "Data":"",
+    "DurationNs":"161272355"
+  }
+}
+,{"ts":1002,"ph":"s","cat":"DataFlow","id":5834,"pid":0,"tid":5451,"name":"dep"}
+,{"ts":1010,"ph":"t","cat":"DataFlow","id":5834,"pid":6,"tid":234,"name":"dep"}
+],
+"otherData": {
+    "CMD": "rocminfo",
+    "HSASystemAttributes.RuntimeVersion": "1.1",
+    "HSASystemAttributes.SystemTimestampFreq.": "1000.000000MHz",
+    "HSASystemAttributes.Sig.MaxWaitDuration": "18446744073709551615(0xFFFFFFFFFFFFFFFF)(timestampcount)",
+    "HSASystemAttributes.MachineModel": "LARGE",
+    "HSASystemAttributes.SystemEndianness": "LITTLE",
+    "Agent1.Name": "AMDEPYC7A5364-CoreProcessor",
+    "Agent1.Uuid": "CPU-XX",
+    "Agent1.MarketingName": "AMDEPYC7A5364-CoreProcessor"
+}
+}
