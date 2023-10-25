@@ -5,8 +5,11 @@ def adjust_events(all_df_lists, pid_rank_mult, ranks, sync_tss):
     """ Adjusts data according to global PID multiplier, GPU queues/streams and sync time stamps.
 
     Adjusts TIDs to reflect separate GPU queues/streams.
+
+    @return Minimum time stamp value after adjustments
     """
     tid_maps = [{} for rank in ranks]
+    min_ts = 0
 
     for df_list in all_df_lists:
         for irank, df in enumerate(df_list):
@@ -15,6 +18,8 @@ def adjust_events(all_df_lists, pid_rank_mult, ranks, sync_tss):
                 # Adjust timstamp
                 if "ts" in event:
                     event["ts"] = int(event["ts"]) - sync_tss[irank] + sync_tss[0]
+                    if event["ts"] < min_ts:
+                        min_ts = event["ts"]
 
                 if "args" in event:
                     # Check stream IDs and tids
@@ -43,6 +48,32 @@ def adjust_events(all_df_lists, pid_rank_mult, ranks, sync_tss):
                 else:
                     event["pid"] = newpid # str
 
+    return min_ts
+
+def check_validity_adjust(all_df_lists, min_ts):
+    """ Basic checks on processed events
+
+    Check for negative time stamps.
+    """
+
+    if min_ts >= 0:
+        return
+
+    print("Negative time stamp(s) exist.")
+
+    for df_list in all_df_lists:
+        for df in df_list:
+            for event in df:
+                # Adjust timstamp
+                if "ts" in event:
+                    event["ts"] = int(event["ts"]) - min_ts
+
+                if "args" in event:
+                    # Adjust ns times
+                    if "BeginNs" in event["args"]:
+                        event["args"]["BeginNs"] = int(event["args"]["BeginNs"]) - min_ts*1000
+                        event["args"]["EndNs"] = int(event["args"]["EndNs"]) - min_ts*1000
+
 
 def process_sections(rank_sections_list, ranks):
     """ Get the global list of section dicts.
@@ -61,6 +92,7 @@ def process_sections(rank_sections_list, ranks):
             max_pid = max(max_pid, int(pid))
 
     max_pid += 1
+    print("PID multiplier is {}.".format(max_pid))
     gl_sections = []
     rank_ids = []
     max_sort_index = 0
@@ -174,7 +206,8 @@ def merge_traces(input_files):
     # Process names and PIDs
     gl_sections, pid_rank_multiplier = process_sections(ranks_sections, ranks)
 
-    adjust_events((dur_events, marker_events, flow_events), pid_rank_multiplier, ranks, sync_tss)
+    min_ts = adjust_events((dur_events, marker_events, flow_events), pid_rank_multiplier, ranks, sync_tss)
+    check_validity_adjust((dur_events, marker_events, flow_events), min_ts)
 
     outdict["traceEvents"] = outdict["traceEvents"] + gl_sections
     for irank, rank in enumerate(ranks):

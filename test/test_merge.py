@@ -13,7 +13,6 @@ class MergeTest(unittest.TestCase):
         pass
 
     def compare_traces(self, testdir, ranks):
-        #inputfiles = [testdir + "/0/results.json", testdir + "/4/results.json", testdir + "/8/results.json"]
         inputfiles = [testdir + "/" + str(rank) + "/results.json" for rank in ranks]
         ref_outputfile = testdir + "/merged.json"
         ref_outdict = {}
@@ -46,7 +45,13 @@ class MergeTest(unittest.TestCase):
         testdir = "./test1"
         if not os.path.isdir(testdir):
             testdir = "./test/test1"
-        self.compare_traces(testdir, [0, 4, 8, 32, 128])
+        self.compare_traces(testdir, [0, 1, 2, 8, 103])
+
+    def test_2(self):
+        testdir = "./test_neg"
+        if not os.path.isdir(testdir):
+            testdir = "./test/test_neg"
+        self.compare_traces(testdir, [0, 1])
 
 
 if __name__ == "__main__":

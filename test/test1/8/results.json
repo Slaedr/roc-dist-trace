@@ -2,7 +2,7 @@
 ,{"args":{"name":"Markers and Ranges"},"ph":"M","pid":0,"name":"process_name","sort_index":0}
 ,{"args":{"name":"CPU HIP API"},"ph":"M","pid":2,"name":"process_name","sort_index":1}
 ,{"args":{"name":"COPY"},"ph":"M","pid":1,"name":"process_name","sort_index":2}
-,{"args":{"name":"GPU4"},"ph":"M","pid":20,"name":"process_name","sort_index":7}
+,{"args":{"name":"GPU4"},"ph":"M","pid":5,"name":"process_name","sort_index":7}
 ,{"ph":"X","name":"App_clock_sync","pid":"0","tid":"5451","ts":"90","dur":"4",
   "args":{
     "BeginNs":"90000",
@@ -21,7 +21,7 @@
     "Name":"HPL_all_reduce_dmxswp"
   }
 }
-,{"ph":"X","name":"dlatcpy_gpu(int, int, double const*, int, double*, int)","pid":"20","tid":"1","ts":"101","dur":"25",
+,{"ph":"X","name":"dlatcpy_gpu(int, int, double const*, int, double*, int)","pid":"5","tid":"1","ts":"101","dur":"25",
   "args":{
     "BeginNs":"101000",
     "EndNs":"126100",
@@ -35,7 +35,7 @@
     "DurationNs":"25100"
   }
 }
-,{"ph":"X","name":"Cijk_Ailk_Bjlk_DB_MT128x128x16_MI16x16x4x1","pid":"20","tid":"0","ts":"99","dur":"20",
+,{"ph":"X","name":"Cijk_Ailk_Bjlk_DB_MT128x128x16_MI16x16x4x1","pid":"5","tid":"0","ts":"99","dur":"20",
   "args":{
     "BeginNs":"99000",
     "EndNs":"119050",
@@ -49,7 +49,7 @@
     "DurationNs":"20050"
   }
 }
-,{"ph":"X","name":"<barrier packet>","pid":"20","tid":"0","ts":"102","dur":"6",
+,{"ph":"X","name":"<barrier packet>","pid":"5","tid":"0","ts":"102","dur":"6",
   "args":{
     "BeginNs":"102000",
     "EndNs":"108000",
@@ -64,7 +64,7 @@
   }
 }
 ,{"ts":101,"ph":"s","cat":"DataFlow","id":5834,"pid":0,"tid":5451,"name":"dep"}
-,{"ts":102,"ph":"t","cat":"DataFlow","id":5834,"pid":20,"tid":0,"name":"dep"}
+,{"ts":102,"ph":"t","cat":"DataFlow","id":5834,"pid":5,"tid":0,"name":"dep"}
 ],
 "otherData": {
     "CMD": "rocminfo",

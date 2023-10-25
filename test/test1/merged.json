@@ -3,23 +3,23 @@
 ,{"args":{"name":"CPU HIP API r0"},"ph":"M","pid":2,"name":"process_name","sort_index":1}
 ,{"args":{"name":"COPY r0"},"ph":"M","pid":1,"name":"process_name","sort_index":2}
 ,{"args":{"name":"GPU0 r0"},"ph":"M","pid":6,"name":"process_name","sort_index":3}
-,{"args":{"name":"Markers and Ranges r4"},"ph":"M","pid":21,"name":"process_name","sort_index":8}
-,{"args":{"name":"CPU HIP API r4"},"ph":"M","pid":23,"name":"process_name","sort_index":9}
-,{"args":{"name":"COPY r4"},"ph":"M","pid":22,"name":"process_name","sort_index":10}
-,{"args":{"name":"GPU0 r4"},"ph":"M","pid":27,"name":"process_name","sort_index":11}
-,{"args":{"name":"GPU1 r4"},"ph":"M","pid":28,"name":"process_name","sort_index":12}
-,{"args":{"name":"Markers and Ranges r8"},"ph":"M","pid":42,"name":"process_name","sort_index":16}
-,{"args":{"name":"CPU HIP API r8"},"ph":"M","pid":44,"name":"process_name","sort_index":17}
-,{"args":{"name":"COPY r8"},"ph":"M","pid":43,"name":"process_name","sort_index":18}
-,{"args":{"name":"GPU4 r8"},"ph":"M","pid":62,"name":"process_name","sort_index":23}
-,{"args":{"name":"Markers and Ranges r32"},"ph":"M","pid":63,"name":"process_name","sort_index":24}
-,{"args":{"name":"CPU HIP API r32"},"ph":"M","pid":65,"name":"process_name","sort_index":25}
-,{"args":{"name":"COPY r32"},"ph":"M","pid":64,"name":"process_name","sort_index":26}
-,{"args":{"name":"GPU4 r32"},"ph":"M","pid":68,"name":"process_name","sort_index":31}
-,{"args":{"name":"Markers and Ranges r128"},"ph":"M","pid":84,"name":"process_name","sort_index":32}
-,{"args":{"name":"CPU HIP API r128"},"ph":"M","pid":86,"name":"process_name","sort_index":33}
-,{"args":{"name":"COPY r128"},"ph":"M","pid":85,"name":"process_name","sort_index":34}
-,{"args":{"name":"GPU4 r128"},"ph":"M","pid":91,"name":"process_name","sort_index":39}
+,{"args":{"name":"Markers and Ranges r1"},"ph":"M","pid":21,"name":"process_name","sort_index":8}
+,{"args":{"name":"CPU HIP API r1"},"ph":"M","pid":23,"name":"process_name","sort_index":9}
+,{"args":{"name":"COPY r1"},"ph":"M","pid":22,"name":"process_name","sort_index":10}
+,{"args":{"name":"GPU0 r1"},"ph":"M","pid":27,"name":"process_name","sort_index":11}
+,{"args":{"name":"GPU1 r1"},"ph":"M","pid":28,"name":"process_name","sort_index":12}
+,{"args":{"name":"Markers and Ranges r2"},"ph":"M","pid":42,"name":"process_name","sort_index":16}
+,{"args":{"name":"CPU HIP API r2"},"ph":"M","pid":44,"name":"process_name","sort_index":17}
+,{"args":{"name":"COPY r2"},"ph":"M","pid":43,"name":"process_name","sort_index":18}
+,{"args":{"name":"GPU4 r2"},"ph":"M","pid":62,"name":"process_name","sort_index":23}
+,{"args":{"name":"Markers and Ranges r8"},"ph":"M","pid":63,"name":"process_name","sort_index":24}
+,{"args":{"name":"CPU HIP API r8"},"ph":"M","pid":65,"name":"process_name","sort_index":25}
+,{"args":{"name":"COPY r8"},"ph":"M","pid":64,"name":"process_name","sort_index":26}
+,{"args":{"name":"GPU4 r8"},"ph":"M","pid":68,"name":"process_name","sort_index":31}
+,{"args":{"name":"Markers and Ranges r103"},"ph":"M","pid":84,"name":"process_name","sort_index":32}
+,{"args":{"name":"CPU HIP API r103"},"ph":"M","pid":86,"name":"process_name","sort_index":33}
+,{"args":{"name":"COPY r103"},"ph":"M","pid":85,"name":"process_name","sort_index":34}
+,{"args":{"name":"GPU4 r103"},"ph":"M","pid":91,"name":"process_name","sort_index":39}
 ,{"ph":"X","name":"dlatcpy_gpu(int, int, double const*, int, double*, int)","pid":6,"tid":"1","ts":999,"dur":"2",
   "args":{
     "BeginNs":999000,
@@ -126,8 +126,8 @@
     "Name":"HPL_all_reduce_dmxswp"
   }
 }
-,{"ts":1001,"ph":"s","cat":"DataFlow","id":5835,"pid":21,"tid":5451,"name":"dep r4"}
-,{"ts":1002,"ph":"t","cat":"DataFlow","id":5835,"pid":27,"tid":22,"name":"dep r4"}
+,{"ts":1001,"ph":"s","cat":"DataFlow","id":5835,"pid":21,"tid":5451,"name":"dep r1"}
+,{"ts":1002,"ph":"t","cat":"DataFlow","id":5835,"pid":27,"tid":22,"name":"dep r1"}
 ,{"ph":"X","name":"dlatcpy_gpu(int, int, double const*, int, double*, int)","pid":62,"tid":"1","ts":1002,"dur":"25",
   "args":{
     "BeginNs":1002000,
@@ -188,8 +188,8 @@
     "Name":"HPL_all_reduce_dmxswp"
   }
 }
-,{"ts":1002,"ph":"s","cat":"DataFlow","id":5834,"pid":42,"tid":5451,"name":"dep r8"}
-,{"ts":1003,"ph":"t","cat":"DataFlow","id":5834,"pid":62,"tid":20,"name":"dep r8"}
+,{"ts":1002,"ph":"s","cat":"DataFlow","id":5834,"pid":42,"tid":5451,"name":"dep r2"}
+,{"ts":1003,"ph":"t","cat":"DataFlow","id":5834,"pid":62,"tid":20,"name":"dep r2"}
 ,{"ph":"X","name":"dlatcpy_gpu(int, int, double const*, int, double*, int)","pid":68,"tid":"1","ts":1002,"dur":"25",
   "args":{
     "BeginNs":1002000,
@@ -250,8 +250,8 @@
     "Name":"HPL_all_reduce_dmxswp"
   }
 }
-,{"ts":1002,"ph":"s","cat":"DataFlow","id":5834,"pid":63,"tid":5451,"name":"dep r32"}
-,{"ts":1003,"ph":"t","cat":"DataFlow","id":5834,"pid":68,"tid":20,"name":"dep r32"}
+,{"ts":1002,"ph":"s","cat":"DataFlow","id":5834,"pid":63,"tid":5451,"name":"dep r8"}
+,{"ts":1003,"ph":"t","cat":"DataFlow","id":5834,"pid":68,"tid":20,"name":"dep r8"}
 ,{"ph":"X","name":"dlatcpy_gpu(int, int, double const*, int, double*, int)","pid":91,"tid":"1","ts":1002,"dur":"25",
   "args":{
     "BeginNs":1002000,
@@ -312,8 +312,8 @@
     "Name":"HPL_all_reduce_dmxswp"
   }
 }
-,{"ts":1002,"ph":"s","cat":"DataFlow","id":5834,"pid":84,"tid":5451,"name":"dep r128"}
-,{"ts":1003,"ph":"t","cat":"DataFlow","id":5834,"pid":91,"tid":20,"name":"dep r128"}
+,{"ts":1002,"ph":"s","cat":"DataFlow","id":5834,"pid":84,"tid":5451,"name":"dep r103"}
+,{"ts":1003,"ph":"t","cat":"DataFlow","id":5834,"pid":91,"tid":20,"name":"dep r103"}
 ],
 "otherData": {
     "CMD": "rocminfo",

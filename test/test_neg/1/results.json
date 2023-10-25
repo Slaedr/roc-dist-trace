@@ -1,0 +1,49 @@
+{ "traceEvents":[{}
+,{"args":{"name":"Markers and Ranges"},"ph":"M","pid":0,"name":"process_name","sort_index":0}
+,{"args":{"name":"CPU HIP API"},"ph":"M","pid":2,"name":"process_name","sort_index":1}
+,{"args":{"name":"GPU1"},"ph":"M","pid":7,"name":"process_name","sort_index":4}
+,{"ph":"X","name":"App_clock_sync","pid":"0","tid":"5451","ts":"192","dur":"4",
+  "args":{
+    "BeginNs":"192000",
+    "EndNs":"196000",
+    "pid":"5451",
+    "tid":"5451",
+    "Name":"App_clock_sync"
+  }
+}
+,{"ph":"X","name":"HPL_all_reduce_dmxswp","pid":"0","tid":"5451","ts":"200","dur":"2",
+  "args":{
+    "BeginNs":"200100",
+    "EndNs":"202200",
+    "pid":"5451",
+    "tid":"5451",
+    "Name":"HPL_all_reduce_dmxswp"
+  }
+}
+,{"ph":"X","name":"dmxswp()","pid":"7","tid":"1","ts":"20","dur":"3",
+  "args":{
+    "BeginNs":"20100",
+    "EndNs":"23250",
+    "dev-id":"4",
+    "queue-id":"0",
+    "Name":"dmxswp()",
+    "pid":"5451",
+    "tid":"5451",
+    "stream-id":"1",
+    "Data":"",
+    "DurationNs":"3150"
+  }
+}
+],
+"otherData": {
+    "CMD": "rocminfo",
+    "HSASystemAttributes.RuntimeVersion": "1.1",
+    "HSASystemAttributes.SystemTimestampFreq.": "1000.000000MHz",
+    "HSASystemAttributes.Sig.MaxWaitDuration": "18446744073709551615(0xFFFFFFFFFFFFFFFF)(timestampcount)",
+    "HSASystemAttributes.MachineModel": "LARGE",
+    "HSASystemAttributes.SystemEndianness": "LITTLE",
+    "Agent1.Name": "AMDEPYC7A5364-CoreProcessor",
+    "Agent1.Uuid": "CPU-XX",
+    "Agent1.MarketingName": "AMDEPYC7A5364-CoreProcessor"
+}
+}
