@@ -15,6 +15,18 @@ def adjust_events(all_df_lists, pid_rank_mult, ranks, sync_tss):
         for irank, df in enumerate(df_list):
 
             for event in df:
+
+                # Process pids
+                newpid = int(event["pid"]) + irank * pid_rank_mult
+                if event["ph"] in "stf":
+                    event["pid"] = newpid
+                    event["name"] = event["name"] + " r" + str(ranks[irank])
+                else:
+                    event["pid"] = newpid
+
+                # Convert tid to int
+                if "tid" in event:
+                    event["tid"] = int(event["tid"])
                 # Adjust timstamp
                 if "ts" in event:
                     event["ts"] = int(event["ts"]) - sync_tss[irank] + sync_tss[0]
@@ -28,25 +40,18 @@ def adjust_events(all_df_lists, pid_rank_mult, ranks, sync_tss):
                         # push (pid,tid)->new_tid map to this rank's list
                         tid_maps[irank][(event["pid"], event["tid"])] = newtid
                         # update this event's tid
-                        event["tid"] = str(newtid)
+                        event["tid"] = newtid
+                        #event["args"]["tid"] = newtid
                     # Adjust ns times
                     if "BeginNs" in event["args"]:
                         event["args"]["BeginNs"] = int(event["args"]["BeginNs"]) - (sync_tss[irank] - sync_tss[0])*1000
                         event["args"]["EndNs"] = int(event["args"]["EndNs"]) - (sync_tss[irank] - sync_tss[0])*1000
                 if event["ph"] in "stf":
                     # correct TIDs of flow events
-                    pids = str(event["pid"])
-                    tids = str(event["tid"])
+                    pids = event["pid"]
+                    tids = event["tid"]
                     if (pids,tids) in tid_maps[irank]:
-                        event["tid"] = int(tid_maps[irank][(pids,tids)])
-
-                # Process pids
-                newpid = int(event["pid"]) + irank * pid_rank_mult
-                if event["ph"] in "stf":
-                    event["pid"] = newpid
-                    event["name"] = event["name"] + " r" + str(ranks[irank])
-                else:
-                    event["pid"] = newpid # str
+                        event["tid"] = tid_maps[irank][(pids,tids)]
 
     return min_ts
 
