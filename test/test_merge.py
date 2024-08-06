@@ -6,6 +6,8 @@ import unittest
 from context import chrome_trace_merge
 from chrome_trace_merge.merge import merge_traces
 
+max_name_len = 100
+
 
 class MergeTest(unittest.TestCase):
 
@@ -28,6 +30,15 @@ class MergeTest(unittest.TestCase):
               )
         self.assertTrue(nevents == len(ref_outdict["traceEvents"]))
         for i in range(nevents):
+            # Adjust for name and args truncation
+            refev = ref_outdict["traceEvents"][i]
+            refev["name"] = refev["name"][:max_name_len]
+            if "args" in refev:
+                if "Name" in refev["args"]:
+                    refev["args"]["Name"] = refev["args"]["Name"][:max_name_len]
+                if "args" in refev["args"]:
+                    refev["args"]["args"] = refev["args"]["args"][:max_name_len]
+            # Compare
             if outdict['traceEvents'][i] != ref_outdict["traceEvents"][i]:
                 print("Event {} with name {} has mismatch!".format(i, outdict["traceEvents"][i]["name"]))
                 print(outdict['traceEvents'][i])

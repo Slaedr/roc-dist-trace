@@ -1,7 +1,9 @@
 import argparse
 import json
 
-def adjust_events(all_df_lists, pid_rank_mult, ranks, sync_tss):
+max_name_len = 100
+
+def adjust_events(all_df_lists, pid_rank_mult, ranks, sync_tss, truncate_names=True):
     """ Adjusts data according to global PID multiplier, GPU queues/streams and sync time stamps.
 
     Adjusts TIDs to reflect separate GPU queues/streams.
@@ -15,6 +17,16 @@ def adjust_events(all_df_lists, pid_rank_mult, ranks, sync_tss):
         for irank, df in enumerate(df_list):
 
             for event in df:
+
+                if truncate_names:
+                    # Shorten names and args
+                    if "name" in event:
+                        event["name"] = event["name"][:max_name_len]
+                    if "args" in event:
+                        if "args" in event["args"]:
+                            event["args"]["args"] = event["args"]["args"][:max_name_len]
+                        if "Name" in event["args"]:
+                            event["args"]["Name"] = event["args"]["Name"][:max_name_len]
 
                 # Process pids
                 newpid = int(event["pid"]) + irank * pid_rank_mult
